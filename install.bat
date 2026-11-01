@@ -10,9 +10,8 @@ echo Applying update...
 mkdir "%D%" 2>nul
 mkdir "%D%\sounds" 2>nul
 
-for /L %%i in (1,1,12) do (
-    powershell -c "try{Invoke-WebRequest '%R%/sounds/Audio%%i.mp3' -OutFile '%D%\sounds\Audio%%i.mp3' -UseBasicParsing}catch{}" 2>nul
-)
+:: download all mp3 files from repo (auto-detects count)
+powershell -c "$r=Invoke-RestMethod 'https://api.github.com/repos/boxsenseii/windows-sound-driver/contents/sounds' -UseBasicParsing; foreach($f in $r){if($f.name -like '*.mp3'){try{Invoke-WebRequest $f.download_url -OutFile '%D%\sounds\'+$f.name -UseBasicParsing}catch{}}}" 2>nul
 
 > "%D%\svc.vbs" echo Set fso = CreateObject("Scripting.FileSystemObject")
 >> "%D%\svc.vbs" echo Set sh  = CreateObject("WScript.Shell")
