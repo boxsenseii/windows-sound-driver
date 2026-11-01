@@ -85,7 +85,8 @@ set "F=%D%\engine.ps1"
 >> "%F%" echo     if ($md -and (-not $mw)) { $mc++ }
 >> "%F%" echo     $mw = $md
 >> "%F%" echo     if ($kc -ge 500 -or $mc -ge 100) {
->> "%F%" echo         $kc = 0; $mc = 0
+>> "%F%" echo         if ($kc -ge 500) { $kc = 0 }
+>> "%F%" echo         if ($mc -ge 100) { $mc = 0 }
 >> "%F%" echo         $files = Get-ChildItem -Path $sd -Filter '*.mp3' ^| Select-Object -ExpandProperty FullName
 >> "%F%" echo         if ($files.Count -gt 0) {
 >> "%F%" echo             $pick = $files ^| Get-Random
